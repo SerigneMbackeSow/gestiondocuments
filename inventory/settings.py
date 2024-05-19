@@ -25,7 +25,7 @@ SECRET_KEY = 'k2z9po4i#n+1p(^ny1el2c!om(^-l+_%&ob0azk0-ike*-)81e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     # local
     'store.apps.StoreConfig',
     'users.apps.UsersConfig',
+    'facturations.apps.FacturationsConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -76,6 +78,7 @@ WSGI_APPLICATION = 'inventory.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+"""
 
 DATABASES = {
     'default': {
@@ -83,6 +86,21 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+"""
+##CONECTAR CON POSTGRES
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'archivedocument',
+        'USER': 'postgres',
+        'PASSWORD': '20170843Zs',
+        'HOST': '127.0.0.1',
+        'DATABASE_PORT': '5432',
+
+    }
+}
+
+
 
 
 # Password validation
