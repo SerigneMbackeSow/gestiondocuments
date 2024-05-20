@@ -73,20 +73,22 @@ def login_page(request):
 def listeboitedirection(request, id):
     lisboite = []
     #a = request.session.get('user_id')
-    user = Utilisateurs.objects.get(id_user=id)
+    user = Utilisateurs.objects.get(id_utilisateur=id)
     direction = user.direction
     listuser = Utilisateurs.objects.filter(direction=direction)
     try:
         lisboite = Boite.objects.filter(id_user__in=listuser)
     except:
         pass
-    return render(request, 'docs/listeboite.html', {'doc': lisboite, 'user': user, 'util': user})
+    return render(request, 'templatetra/list_boite.html', {'boite': lisboite, 'user': user, 'util': user})
 
 def ajouterboite_page(request, id):
     forms = BoiteForm()
     # id=request.session.get('user_id')
     user = Utilisateurs.objects.get(id_utilisateur=id)
-    return render(request, 'docs/ajouterboite.html', {'form': forms, 'user': user, 'util': user})
+    #return render(request, 'docs/ajouterboite.html', {'form': forms, 'user': user, 'util': user})
+    return render(request, 'templatetra/ajout-boite.html', {'form': forms, 'user': user, 'util': user})
+
 
 def enregistrerboite(request):
     if request.method == 'POST':
@@ -94,19 +96,19 @@ def enregistrerboite(request):
         id_user = request.session.get('user_id')
         if form.is_valid() or 1:
             cleaned_data = form.cleaned_data
-            id_user = cleaned_data['id_user']
+            #id_user = cleaned_data['id_user']
             #numero_boite = cleaned_data['numero_boite']
             instance = Boite(
             mention = request.POST['mention'],
-            #numero_rang = request.POST['numero_rang'],
+            #numero_rang = request.POST['rang'],
             date_creation =datetime.now(),
-            id_user = request.POST['id_user'],
+            id_user =request.POST['id_user']
             #harmoire = request.POST['armoire'],
             #numero_comp = request.POST['compartiment'],
             #niveau = request.POST['niveau'],
             )
             instance.save()
-            return  listeboitedirection(request, id_user)
+            return  listeboitedirection(request, request.POST['id_user'])
 
     else:
         return ajouterboite_page(request, request.POST['id_user'])
@@ -114,14 +116,14 @@ def enregistrerboite(request):
 def listedocumentboite(request, id):
     listedoc = []
     boite=False
-    users=False
+    user=False
     try:
         listedoc = Document.objects.filter(id_boite=id)
         boite = Boite.objects.get(id_boite=id)
         user = Utilisateurs.objects.get(id_user=boite.id_user)
     except:
         pass
-    return render(request, 'docs/archivefact.html', {'doc': listedoc, 'user': user, 'util': user, 'boite': boite})
+    return render(request, 'templatetra/list_document.html', {'doc': listedoc, 'user': user, 'util': user, 'boite': boite})
 
 def clotureBoite(request, id):
     boite=False
@@ -143,8 +145,8 @@ def ajouterdossier_page(request, id):
     forms = DocumentForm()
     boite = Boite.objects.get(id_boite=id)
     user = Utilisateurs.objects.get(id_utilisateur=boite.id_user)
-    return render(request, 'docs/ajouerterdossier.html', {'form': forms, 'user': user, 'util': user, 'boite': boite})
-
+    #return render(request, 'docs/ajouerterdossier.html', {'form': forms, 'user': user, 'util': user, 'boite': boite})
+    return render(request, 'templatetra/ajout-document.html', {'form': forms, 'user': user, 'util': user, 'boite': boite})
 
 
 def ajouterdocumentboite(request):

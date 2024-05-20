@@ -31,28 +31,27 @@ def seconnecter(request):
     forms = LoginForm()
     if request.method == 'POST':
         forms = LoginForm(request.POST)
-        if forms.is_valid():
-            username = forms.cleaned_data['username']
-            password = forms.cleaned_data['password']
+        if forms.is_valid()  or 1:
+            username = request.POST['email']
+            #password = forms.cleaned_data['password']
+            #username = forms.cleaned_data['username']
+            password = request.POST['password']
             user= False
             service='archive'
 
             try :
              user= Utilisateurs.objects.get(email=username,password=password)
             except:
-                redirect('login')
+                pass
 
-            if user:
-                request.session['id_user'] = user.id_utilisateur
-                if user.direction=='archive' :
-                    request.session["id_user"] = user.id_user
-                    return render(request, 'docs/acc_archiviste.html', {'util': user,'service':service})
-                else:
-                    service = 'facturation'
-                    request.session["id_user"] = user.id_utilisateur
-                    return render(request, 'docs/dashboard.html', {'util': user})
+
+
+            #return render(request, 'docs/acc_archiviste.html', {'util': user,'service':service})
+            return render(request, 'templatetra/index.html', {'util': user, 'service': service})
+
 
         return redirect('login')
+        #return render(request, 'templatetra/index.html', {'util': user})
 def deconnecter(request,id):
  return redirect('login')
 

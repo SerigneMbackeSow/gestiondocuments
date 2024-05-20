@@ -16,6 +16,7 @@ urlpatterns = [
     path('enregistrerboite/',enregistrerboite,name='listearchive'),
     path('listedocumentboite/<int:id>',listedocumentboite,name='listearchive'),
     path('clotureBoite/<int:id>',clotureBoite,name='listearchive'),
+    path('ajouterdocument/<int:id>',ajouterdossier_page,name='listearchive')
 
 
 ]
